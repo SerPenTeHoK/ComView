@@ -26,11 +26,11 @@ public class GUICom {
     private JButton buttonSend = new JButton("Отправить");
     private JButton buttonConnect = new JButton("Соединить");
     private JCheckBox checkBox = new JCheckBox("+\\r");
+    private static JCheckBox terminal = new JCheckBox("Терминал");
 
     private GUICom() {
-        //******************************* Общее для фрейма **********************************************
-        JFrame.setDefaultLookAndFeelDecorated(false);
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        //******************************* Общее для главного фрейма **********************************************
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         try {
             URL resource = frame.getClass().getResource("/images/bt3.png");
             BufferedImage image = ImageIO.read(resource);
@@ -38,14 +38,15 @@ public class GUICom {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        //******************************* Общее для panel **********************************************
+
         panel.setLayout(new MigLayout());
         panel.setBorder(new TitledBorder("Список доступных COM портов")); // рамка панели с текстом
-
 
         //******************************* Выпадающее меню ***********************************************
         comList.setToolTipText("Выберите COM");
         comList.setFont(new Font("Arial", Font.BOLD, 12));
-        //comList.setMinimumSize(new Dimension(150,22));
         comList.setSelectedIndex(-1); // индекс элемента JComboBox по умолчанию при запуске программы
         comList.addItemListener(new ItemListener() {
             public void itemStateChanged(ItemEvent e) {
@@ -87,6 +88,12 @@ public class GUICom {
                 }
             }
         });
+        terminal.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (terminal.isSelected()){Terminal.showTerminal();}
+                else {Terminal.hideTerminal();}
+            }
+        });
 
         //******************************* Текстовые поля **************************************************
         textField.setText("Введите команду");
@@ -104,7 +111,8 @@ public class GUICom {
         panel.add(buttonConnect, "wrap, pushX");
         panel.add(textField, "pushX, growX");
         panel.add(buttonSend, "wrap, pushX");
-        panel.add(checkBox);
+        panel.add(checkBox, "split");
+        panel.add(terminal);
 
         //******************************* Компоновка фрейма ************************************************
         frame.getContentPane().add(panel);                            // добавление панели "panel" на фрейм
@@ -114,6 +122,13 @@ public class GUICom {
         frame.setLocationRelativeTo(null);                            // размещение окна по центру при запуске программы
         frame.setVisible(true);                                       // сделать окно видимым
     }
+
+    protected static void clickTerminal() {
+        if (terminal.isSelected()) {
+            terminal.doClick();
+        }
+    }
+
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
