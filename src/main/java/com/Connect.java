@@ -7,6 +7,26 @@ import jssc.SerialPortException;
 
 public class Connect {
     private static SerialPort serialPort;
+    private static int speed = 9600;
+    private static int dataBits = 8;
+    private static int stopBits = 1;
+    private static int parity = 0;
+
+    public static void setSpeed(String speed) {
+        Connect.speed = Integer.parseInt(speed);
+    }
+
+    public static void setDataBits(String dataBits) {
+        Connect.dataBits = Integer.parseInt(dataBits);
+    }
+
+    public static void setStopBits(String stopBits) {
+        Connect.stopBits = Integer.parseInt(stopBits);
+    }
+
+    public static void setParity(String parity) {
+        Connect.parity = Integer.parseInt(parity);
+    }
 
     public Connect(String selectedCom) {
         serialPort = new SerialPort(selectedCom);
@@ -15,11 +35,9 @@ public class Connect {
     public void openConnect() {
         try {
             serialPort.openPort();
-            serialPort.setParams(SerialPort.BAUDRATE_9600,
-                                 SerialPort.DATABITS_8,
-                                 SerialPort.STOPBITS_1,
-                                 SerialPort.PARITY_NONE);
+            serialPort.setParams(speed, dataBits, stopBits, parity);
             serialPort.addEventListener(new PortReader(), SerialPort.MASK_RXCHAR);
+            System.out.println(speed + " / " + dataBits + " / " + stopBits + " / " + parity);
         }
         catch (SerialPortException ex) {
             System.err.println(ex);

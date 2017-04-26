@@ -26,6 +26,7 @@ public class Terminal {
         term.setPreferredSize(new Dimension(320, 240));
         term.setMinimumSize(new Dimension(320, 240));
         term.setBounds(100,100,100,100);
+        term.setAlwaysOnTop(true);
         term.pack();
         try {
             URL resource = term.getClass().getResource("/images/bt3.png");

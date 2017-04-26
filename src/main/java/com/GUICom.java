@@ -12,19 +12,20 @@ import java.io.IOException;
 import java.net.URL;
 
 /**
- * Графический интерфейс
+ * GUI for Main frame
  */
 public class GUICom {
     private GetCom getCom = new GetCom();
     private String[] comL = getCom.getCom();
     private Connect com;
     private String selectedCom;
-    private JFrame frame = new JFrame("Wise Control");
+    protected static JFrame frame = new JFrame("Wise Control");
     private JPanel panel = new JPanel();
     private JComboBox comList = new JComboBox(comL);
     private JTextField textField = new JTextField(15);
     private JButton buttonSend = new JButton("Отправить");
-    private JButton buttonConnect = new JButton("Соединить");
+    private static JButton buttonConnect = new JButton("Соединить");
+    private JButton buttonSettings = new JButton("Настройки");
     private JCheckBox checkBox = new JCheckBox("+\\r");
     private static JCheckBox terminal = new JCheckBox("Терминал");
 
@@ -47,6 +48,7 @@ public class GUICom {
         //******************************* Выпадающее меню ***********************************************
         comList.setToolTipText("Выберите COM");
         comList.setFont(new Font("Arial", Font.BOLD, 12));
+        comList.setBackground(Color.WHITE);
         comList.setSelectedIndex(-1); // индекс элемента JComboBox по умолчанию при запуске программы
         comList.addItemListener(new ItemListener() {
             public void itemStateChanged(ItemEvent e) {
@@ -95,6 +97,14 @@ public class GUICom {
             }
         });
 
+        buttonSettings.setMaximumSize(new Dimension(120,22));
+        buttonSettings.setMinimumSize(new Dimension(120,22));
+        buttonSettings.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                Settings.showSetting();
+            }
+        });
+
         //******************************* Текстовые поля **************************************************
         textField.setText("Введите команду");
         textField.setFont(new Font("Arial", Font.ITALIC, 12));
@@ -103,21 +113,29 @@ public class GUICom {
             public void focusGained(FocusEvent e) {
                 textField.setText("");
             }
-            public void focusLost(FocusEvent e) {}
+            public void focusLost(FocusEvent e) {textField.setText("Введите команду");}
+        });
+        textField.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                buttonSend.doClick();
+                textField.setText("");
+            }
         });
 
         //******************************* Размещение на панели ********************************************
-        panel.add(comList, "span 1, growX");                         // добавление JComboBox на панель
+        panel.add(comList, "span 1, growX, split");                         // добавление JComboBox на панель
         panel.add(buttonConnect, "wrap, pushX");
-        panel.add(textField, "pushX, growX");
+        panel.add(textField, "pushX, growX, split");
         panel.add(buttonSend, "wrap, pushX");
         panel.add(checkBox, "split");
-        panel.add(terminal);
+        panel.add(terminal, "pushX, growX, right");
+        panel.add(buttonSettings, "pushX, growX, right");
 
         //******************************* Компоновка фрейма ************************************************
         frame.getContentPane().add(panel);                            // добавление панели "panel" на фрейм
         frame.setPreferredSize(new Dimension(320, 150)); // размер окна при запуске программы
-        frame.setMinimumSize(new Dimension(320, 150));   // минимальный размер окна
+        //frame.setMinimumSize(new Dimension(320, 150));   // минимальный размер окна
+        frame.setResizable(false);
         frame.pack();                                                 // автоматическая подстройка всех компонентов окна
         frame.setLocationRelativeTo(null);                            // размещение окна по центру при запуске программы
         frame.setVisible(true);                                       // сделать окно видимым
