@@ -24,7 +24,7 @@ public class GUICom {
     private JComboBox comList = new JComboBox(comL);
     private JTextField textField = new JTextField(15);
     private JButton buttonSend = new JButton("Отправить");
-    private static JButton buttonConnect = new JButton("Соединить");
+    protected static JButton buttonConnect = new JButton("Соединить");
     private JButton buttonSettings = new JButton("Настройки");
     private JCheckBox checkBox = new JCheckBox("+\\r");
     private static JCheckBox terminal = new JCheckBox("Терминал");
@@ -63,7 +63,7 @@ public class GUICom {
         buttonSend.setMinimumSize(new Dimension(120,22));
         buttonSend.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                if (textField.getText().equals("Введите команду")){
+                if (textField.getText().equals("Введите команду")||textField.getText().equals("")){
                     textField.setText("Введите команду");
                 }
                 else if (checkBox.isSelected()){
@@ -72,24 +72,32 @@ public class GUICom {
                 else {
                     com.sendCom(textField.getText());
                     textField.setText("Введите команду");}
-
             }
         });
+
         buttonConnect.setMaximumSize(new Dimension(120,22));
         buttonConnect.setMinimumSize(new Dimension(120,22));
         buttonConnect.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                if (selectedCom.equals("")){buttonConnect.setText("Соединить");}
+                if (selectedCom.equals("")){
+                    buttonConnect.setText("Соединить");
+                }
                 else if (buttonConnect.getText().equals("Соединить")){
                     com = new Connect(selectedCom);
                     com.openConnect();
-                    buttonConnect.setText("Разъединить");}
+                    if (Connect.getErrorFlag().equals("error")){
+                        buttonConnect.setText("Соединить");
+                        com.closeConnect();
+                    }
+                    else {buttonConnect.setText("Разъединить");}
+                    }
                 else {
                     com.closeConnect();
                     buttonConnect.setText("Соединить");
                 }
             }
         });
+
         terminal.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (terminal.isSelected()){Terminal.showTerminal();}
@@ -113,7 +121,7 @@ public class GUICom {
             public void focusGained(FocusEvent e) {
                 textField.setText("");
             }
-            public void focusLost(FocusEvent e) {textField.setText("Введите команду");}
+            public void focusLost(FocusEvent e) {}
         });
         textField.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {

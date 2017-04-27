@@ -11,6 +11,15 @@ public class Connect {
     private static int dataBits = 8;
     private static int stopBits = 1;
     private static int parity = 0;
+    private static String errorFlag ="";
+
+    public static void setErrorFlag(String errorFlag) {
+        Connect.errorFlag = errorFlag;
+    }
+
+    public static String getErrorFlag() {
+        return errorFlag;
+    }
 
     public static void setSpeed(String speed) {
         Connect.speed = Integer.parseInt(speed);
@@ -37,15 +46,21 @@ public class Connect {
             serialPort.openPort();
             serialPort.setParams(speed, dataBits, stopBits, parity);
             serialPort.addEventListener(new PortReader(), SerialPort.MASK_RXCHAR);
-            System.out.println(speed + " / " + dataBits + " / " + stopBits + " / " + parity);
+            //System.out.println(speed + " / " + dataBits + " / " + stopBits + " / " + parity);
         }
         catch (SerialPortException ex) {
             System.err.println(ex);
+            if (ex.getExceptionType().equals("Port busy")){
+                ErrorMessage.setErrorMessage("Порт занят. Выберите другой порт.");
+                ErrorMessage.setErrorDialogShow();
+                errorFlag = "error";
+            }
         }
     }
 
     public void closeConnect(){
         try{
+            setErrorFlag("");
             serialPort.closePort();
         }
         catch (SerialPortException ex){
