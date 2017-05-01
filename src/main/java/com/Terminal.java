@@ -3,10 +3,7 @@ package com;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
@@ -18,6 +15,8 @@ public class Terminal {
     private static JFrame term = new JFrame("Терминал");
     private static JTextArea textArea = new JTextArea(10,25);
     private static JScrollPane scrollPane = new JScrollPane(textArea);
+    private static JPopupMenu contextMenu = new JPopupMenu();
+    private static JCheckBoxMenuItem alwaysOnTop = new JCheckBoxMenuItem("Всегда сверху");
 
     protected static void showTerminal(){
         //******************************* Общее для фрейма Терминал **********************************************
@@ -26,7 +25,6 @@ public class Terminal {
         term.setPreferredSize(new Dimension(320, 240));
         term.setMinimumSize(new Dimension(320, 240));
         term.setBounds(100,100,100,100);
-        term.setAlwaysOnTop(true);
         term.pack();
         try {
             URL resource = term.getClass().getResource("/images/bt3.png");
@@ -48,11 +46,28 @@ public class Terminal {
         textArea.setForeground(Color.GREEN);
         textArea.setLineWrap(true);
         textArea.setEditable(false);
-        textArea.setToolTipText("Очистка экрана - щелчок правой кнопкой мыши");
         textArea.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseClicked(MouseEvent e) {
-                if (e.getButton()==MouseEvent.BUTTON3){textArea.setText("");}
+            public void mousePressed(MouseEvent e) {
+                if (e.getButton()==MouseEvent.BUTTON3){
+                    contextMenu.show(e.getComponent(), e.getX(), e.getY());
+                }
+            }
+        });
+
+        contextMenu.add(alwaysOnTop);
+        alwaysOnTop.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (alwaysOnTop.isSelected()){term.setAlwaysOnTop(true);}
+                else {term.setAlwaysOnTop(false);}
+            }
+        });
+
+        JMenuItem clear = new JMenuItem("Очистить");
+        contextMenu.add(clear);
+        clear.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                textArea.setText("");
             }
         });
 
