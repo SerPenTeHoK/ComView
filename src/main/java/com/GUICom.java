@@ -31,20 +31,6 @@ public class GUICom {
     private static JCheckBox terminal = new JCheckBox("Терминал");
 
     private GUICom() {
-        //******************************* Общее для главного фрейма **********************************************
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        try {
-            URL resource = frame.getClass().getResource("/images/bt3.png");
-            BufferedImage image = ImageIO.read(resource);
-            frame.setIconImage(image);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        //******************************* Общее для panel **********************************************
-
-        panel.setLayout(new MigLayout());
-        panel.setBorder(new TitledBorder("Список доступных COM портов")); // рамка панели с текстом
 
         //******************************* Выпадающее меню ***********************************************
         comList.setToolTipText("Выберите COM");
@@ -132,7 +118,9 @@ public class GUICom {
         });
 
         //******************************* Размещение на панели ********************************************
-        panel.add(comList, "span 1, growX, split");                         // добавление JComboBox на панель
+        panel.setLayout(new MigLayout());
+        panel.setBorder(new TitledBorder("Список доступных COM портов"));
+        panel.add(comList, "span 1, growX, split");
         panel.add(buttonConnect, "wrap, pushX");
         panel.add(textField, "pushX, growX, split");
         panel.add(buttonSend, "wrap, pushX");
@@ -141,9 +129,16 @@ public class GUICom {
         panel.add(buttonSettings, "pushX, growX, right");
 
         //******************************* Компоновка фрейма ************************************************
+        try {
+            URL resource = frame.getClass().getResource("/images/bt3.png");
+            BufferedImage image = ImageIO.read(resource);
+            frame.setIconImage(image);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().add(panel);                            // добавление панели "panel" на фрейм
         frame.setPreferredSize(new Dimension(320, 150)); // размер окна при запуске программы
-        //frame.setMinimumSize(new Dimension(320, 150));   // минимальный размер окна
         frame.setResizable(false);
         frame.pack();                                                 // автоматическая подстройка всех компонентов окна
         frame.setLocationRelativeTo(null);                            // размещение окна по центру при запуске программы
