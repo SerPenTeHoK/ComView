@@ -6,10 +6,10 @@ import jssc.SerialPortList;
      * Запрос списка COM портов
      */
 
-    public class GetCom {
+    class GetCom {
         private String[] portNames = SerialPortList.getPortNames();
 
-        public String[] getCom(){
+        String[] getCom(){
             return this.portNames;
         }
     }

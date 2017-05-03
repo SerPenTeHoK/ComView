@@ -29,26 +29,20 @@ public class GUICom {
     private GUICom() {
 
         //******************************* Выпадающее меню ***********************************************
-        GetCom getCom = new GetCom();
-        String[] comL = getCom.getCom();
-        JComboBox comList = new JComboBox(comL);
-        comList.setToolTipText("Выберите COM");
+        JComboBox<String> comList = new JComboBox<>(new GetCom().getCom());
         comList.setFont(new Font("Arial", Font.BOLD, 12));
         comList.setBackground(Color.WHITE);
         comList.setSelectedIndex(-1); // индекс элемента JComboBox по умолчанию при запуске программы
-        comList.addItemListener(new ItemListener() {
-            public void itemStateChanged(ItemEvent e) {
+        comList.addItemListener(e-> {
                 if (e.getStateChange()==ItemEvent.SELECTED){
                     selectedCom = (String) e.getItem();
                 }
-            }
         });
 
         //******************************* Блок кнопок ****************************************************
         buttonSend.setMaximumSize(new Dimension(120,22));
         buttonSend.setMinimumSize(new Dimension(120,22));
-        buttonSend.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
+        buttonSend.addActionListener(e-> {
                 if (textField.getText().equals("Введите команду")||textField.getText().equals("")){
                     textField.setText("Введите команду");
                 }
@@ -58,13 +52,11 @@ public class GUICom {
                 else {
                     com.sendCom(textField.getText());
                     textField.setText("Введите команду");}
-            }
         });
 
         buttonConnect.setMaximumSize(new Dimension(120,22));
         buttonConnect.setMinimumSize(new Dimension(120,22));
-        buttonConnect.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
+        buttonConnect.addActionListener(e-> {
                 if (selectedCom.equals("")){
                     buttonConnect.setText("Соединить");
                 }
@@ -81,23 +73,16 @@ public class GUICom {
                     com.closeConnect();
                     buttonConnect.setText("Соединить");
                 }
-            }
         });
 
-        terminal.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
+        terminal.addActionListener(e-> {
                 if (terminal.isSelected()){Terminal.showTerminal();}
                 else {Terminal.hideTerminal();}
-            }
         });
 
         buttonSettings.setMaximumSize(new Dimension(120,22));
         buttonSettings.setMinimumSize(new Dimension(120,22));
-        buttonSettings.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                Settings.showSetting();
-            }
-        });
+        buttonSettings.addActionListener(e-> Settings.showSetting());
 
         //******************************* Текстовые поля **************************************************
         textField.setText("Введите команду");
@@ -109,11 +94,9 @@ public class GUICom {
             }
             public void focusLost(FocusEvent e) {}
         });
-        textField.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
+        textField.addActionListener(e-> {
                 buttonSend.doClick();
                 textField.setText("");
-            }
         });
 
         //******************************* Размещение на панели ********************************************
@@ -152,10 +135,6 @@ public class GUICom {
     }
 
     public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new GUICom();
-            }
-        });
+        new GUICom();
     }
 }

@@ -5,7 +5,7 @@ import jssc.SerialPortEvent;
 import jssc.SerialPortEventListener;
 import jssc.SerialPortException;
 
-public class Connect {
+class Connect {
     private static SerialPort serialPort;
     private static int speed = 9600;
     private static int dataBits = 8;
@@ -13,35 +13,35 @@ public class Connect {
     private static int parity = 0;
     private static String errorFlag ="";
 
-    public static void setErrorFlag(String errorFlag) {
+    private static void setErrorFlag(String errorFlag) {
         Connect.errorFlag = errorFlag;
     }
 
-    public static String getErrorFlag() {
+    static String getErrorFlag() {
         return errorFlag;
     }
 
-    public static void setSpeed(String speed) {
+    static void setSpeed(String speed) {
         Connect.speed = Integer.parseInt(speed);
     }
 
-    public static void setDataBits(String dataBits) {
+    static void setDataBits(String dataBits) {
         Connect.dataBits = Integer.parseInt(dataBits);
     }
 
-    public static void setStopBits(String stopBits) {
+    static void setStopBits(String stopBits) {
         Connect.stopBits = Integer.parseInt(stopBits);
     }
 
-    public static void setParity(String parity) {
+    static void setParity(String parity) {
         Connect.parity = Integer.parseInt(parity);
     }
 
-    public Connect(String selectedCom) {
+    Connect(String selectedCom) {
         serialPort = new SerialPort(selectedCom);
     }
 
-    public void openConnect() {
+    void openConnect() {
         try {
             serialPort.openPort();
             serialPort.setParams(speed, dataBits, stopBits, parity);
@@ -58,7 +58,7 @@ public class Connect {
         }
     }
 
-    public void closeConnect(){
+    void closeConnect(){
         try{
             setErrorFlag("");
             serialPort.closePort();
@@ -68,7 +68,7 @@ public class Connect {
         }
     }
 
-    public void sendCom(String data){
+    void sendCom(String data){
         try{
             serialPort.writeBytes(data.getBytes());
         }

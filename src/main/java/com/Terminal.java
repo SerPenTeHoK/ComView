@@ -11,14 +11,14 @@ import java.net.URL;
 /**
  *  GUI для терминала
  */
-public class Terminal {
+class Terminal {
     private static JFrame term = new JFrame("Терминал");
     private static JTextArea textArea = new JTextArea(10,25);
     private static JScrollPane scrollPane = new JScrollPane(textArea);
     private static JPopupMenu contextMenu = new JPopupMenu();
     private static JCheckBoxMenuItem alwaysOnTop = new JCheckBoxMenuItem("Всегда сверху");
 
-    protected static void showTerminal(){
+    static void showTerminal(){
         //******************************* Общее для фрейма Терминал **********************************************
         term.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         term.getContentPane().add(scrollPane);
@@ -56,29 +56,23 @@ public class Terminal {
         });
 
         contextMenu.add(alwaysOnTop);
-        alwaysOnTop.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
+        alwaysOnTop.addActionListener(e -> {
                 if (alwaysOnTop.isSelected()){term.setAlwaysOnTop(true);}
                 else {term.setAlwaysOnTop(false);}
-            }
         });
 
         JMenuItem clear = new JMenuItem("Очистить");
         contextMenu.add(clear);
-        clear.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                textArea.setText("");
-            }
-        });
+        clear.addActionListener(e -> textArea.setText(""));
 
         term.setVisible(true);
     }
 
-    protected static void hideTerminal(){
+    static void hideTerminal(){
         term.setVisible(false);
     }
 
-    protected static void writeTerminal(String inputData){
+    static void writeTerminal(String inputData){
         textArea.append(inputData);
     }
 }

@@ -9,10 +9,10 @@ import java.awt.*;
 /**
  * GUI for About
  */
-public class About extends JDialog{
-    protected static final JDialog about = new JDialog(Settings.settings, "О программе", true);
+class About extends JDialog{
+    private static final JDialog about = new JDialog(Settings.settings, "О программе", true);
 
-    protected static void showAbout(){
+    static void showAbout(){
         JPanel panel = new JPanel();
         panel.setLayout(new MigLayout());
 

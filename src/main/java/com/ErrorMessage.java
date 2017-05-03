@@ -3,15 +3,15 @@ package com;
 import javax.swing.*;
 import java.awt.*;
 
-public class ErrorMessage extends JDialog{
-    protected static JDialog errorDialog = new JDialog(GUICom.frame, "Внимание!", true);
-    protected static String errorMessage = "";
+class ErrorMessage extends JDialog{
+    private static JDialog errorDialog = new JDialog(GUICom.frame, "Внимание!", true);
+    private static String errorMessage = "";
 
-    public static void setErrorMessage(String errorMessage) {
+    static void setErrorMessage(String errorMessage) {
         ErrorMessage.errorMessage = errorMessage;
     }
 
-    public static void setErrorDialogShow(){
+    static void setErrorDialogShow(){
         JLabel message = new JLabel(errorMessage);
         message.setFont(new Font("Arial", Font.PLAIN, 14));
         message.setHorizontalAlignment(SwingConstants.CENTER);
