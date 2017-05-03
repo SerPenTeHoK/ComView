@@ -16,23 +16,22 @@ import java.net.URL;
  * GUI for Main frame
  */
 public class GUICom {
-    private GetCom getCom = new GetCom();
-    private String[] comL = getCom.getCom();
     private Connect com;
     private String selectedCom;
-    protected static JFrame frame = new JFrame("Wise Control");
-    private JPanel panel = new JPanel();
-    private JComboBox comList = new JComboBox(comL);
+    static JFrame frame = new JFrame("Wise Control");
     private JTextField textField = new JTextField(15);
-    private JButton buttonSend = new JButton("Отправить");
-    protected static JButton buttonConnect = new JButton("Соединить");
-    private JButton buttonSettings = new JButton("Настройки");
+    private static JButton buttonSend = new JButton("Отправить");
+    private static JButton buttonConnect = new JButton("Соединить");
+    private static JButton buttonSettings = new JButton("Настройки");
     private JCheckBox checkBox = new JCheckBox("+\\r");
     private static JCheckBox terminal = new JCheckBox("Терминал");
 
     private GUICom() {
 
         //******************************* Выпадающее меню ***********************************************
+        GetCom getCom = new GetCom();
+        String[] comL = getCom.getCom();
+        JComboBox comList = new JComboBox(comL);
         comList.setToolTipText("Выберите COM");
         comList.setFont(new Font("Arial", Font.BOLD, 12));
         comList.setBackground(Color.WHITE);
@@ -118,6 +117,7 @@ public class GUICom {
         });
 
         //******************************* Размещение на панели ********************************************
+        JPanel panel = new JPanel();
         panel.setLayout(new MigLayout());
         panel.setBorder(new TitledBorder("Список доступных COM портов"));
         panel.add(comList, "span 1, growX, split");
@@ -136,7 +136,7 @@ public class GUICom {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.getContentPane().add(panel);                            // добавление панели "panel" на фрейм
         frame.setPreferredSize(new Dimension(320, 150)); // размер окна при запуске программы
         frame.setResizable(false);
@@ -145,7 +145,7 @@ public class GUICom {
         frame.setVisible(true);                                       // сделать окно видимым
     }
 
-    protected static void clickTerminal() {
+    static void clickTerminal() {
         if (terminal.isSelected()) {
             terminal.doClick();
         }

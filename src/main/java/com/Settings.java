@@ -12,10 +12,11 @@ import java.awt.event.ItemListener;
 /**
  * GUI for Settings
  */
-public class Settings extends JDialog {
-    protected static JDialog settings = new JDialog(GUICom.frame,"Настройки", true);
 
-    protected static void showSetting(){
+class Settings extends JDialog {
+    static JDialog settings = new JDialog(GUICom.frame,"Настройки", true);
+
+    static void showSetting(){
         JPanel panel = new JPanel();
         panel.setLayout(new MigLayout());
 
