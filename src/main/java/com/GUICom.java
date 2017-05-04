@@ -32,7 +32,7 @@ public class GUICom {
         JComboBox<String> comList = new JComboBox<>(new GetCom().getCom());
         comList.setFont(new Font("Arial", Font.BOLD, 12));
         comList.setBackground(Color.WHITE);
-        comList.setSelectedIndex(-1); // индекс элемента JComboBox по умолчанию при запуске программы
+        comList.setSelectedIndex(-1);
         comList.addItemListener(e-> {
                 if (e.getStateChange()==ItemEvent.SELECTED){
                     selectedCom = (String) e.getItem();
@@ -120,12 +120,12 @@ public class GUICom {
             e.printStackTrace();
         }
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.getContentPane().add(panel);                            // добавление панели "panel" на фрейм
-        frame.setPreferredSize(new Dimension(320, 150)); // размер окна при запуске программы
+        frame.getContentPane().add(panel);
+        frame.setPreferredSize(new Dimension(320, 150));
         frame.setResizable(false);
-        frame.pack();                                                 // автоматическая подстройка всех компонентов окна
-        frame.setLocationRelativeTo(null);                            // размещение окна по центру при запуске программы
-        frame.setVisible(true);                                       // сделать окно видимым
+        frame.pack();
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
     }
 
     static void clickTerminal() {
@@ -135,6 +135,6 @@ public class GUICom {
     }
 
     public static void main(String[] args) {
-        new GUICom();
+        EventQueue.invokeLater(() -> new GUICom());
     }
 }
