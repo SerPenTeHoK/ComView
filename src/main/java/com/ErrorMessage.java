@@ -5,14 +5,13 @@ import java.awt.*;
 
 class ErrorMessage extends JDialog{
     private static JDialog errorDialog = new JDialog(GUICom.frame, "Внимание!", true);
-    private static String errorMessage = "";
+    private static JLabel message = new JLabel("");
 
     static void setErrorMessage(String errorMessage) {
-        ErrorMessage.errorMessage = errorMessage;
+        message.setText(errorMessage);
     }
 
     static void setErrorDialogShow(){
-        JLabel message = new JLabel(errorMessage);
         message.setFont(new Font("Arial", Font.PLAIN, 14));
         message.setHorizontalAlignment(SwingConstants.CENTER);
 

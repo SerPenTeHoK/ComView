@@ -17,6 +17,7 @@ class Terminal {
     private static JScrollPane scrollPane = new JScrollPane(textArea);
     private static JPopupMenu contextMenu = new JPopupMenu();
     private static JCheckBoxMenuItem alwaysOnTop = new JCheckBoxMenuItem("Всегда сверху");
+    private static JMenuItem clear = new JMenuItem("Очистить");
 
     static void showTerminal(){
         //******************************* Общее для фрейма Терминал **********************************************
@@ -60,8 +61,6 @@ class Terminal {
                 if (alwaysOnTop.isSelected()){term.setAlwaysOnTop(true);}
                 else {term.setAlwaysOnTop(false);}
         });
-
-        JMenuItem clear = new JMenuItem("Очистить");
         contextMenu.add(clear);
         clear.addActionListener(e -> textArea.setText(""));
 

@@ -23,17 +23,14 @@ class About extends JDialog{
 
         JLabel labelAuthor = new JLabel("Автор и разработчик  (Author and Developer)");
         labelAuthor.setFont(new Font("Arial", Font.ITALIC,14));
-        //labelAuthor.setForeground(Color.BLUE);
         panel.add(labelAuthor, "wrap, center");
 
         JLabel labelMyName = new JLabel("Сергей Наумов  (Sergey Naumov)");
         labelMyName.setFont(new Font("Arial", Font.ITALIC,14));
-        //labelMyName.setForeground(Color.BLUE);
         panel.add(labelMyName, "wrap, center");
 
         JLabel labelMail = new JLabel("Электронная почта  (E - mail)");
         labelMail.setFont(new Font("Arial", Font.ITALIC,14));
-        //labelMail.setForeground(Color.BLUE);
         panel.add(labelMail, "wrap, center");
 
         JTextField textEmail = new JTextField(15);

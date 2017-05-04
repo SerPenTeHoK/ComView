@@ -46,14 +46,12 @@ class Connect {
             serialPort.openPort();
             serialPort.setParams(speed, dataBits, stopBits, parity);
             serialPort.addEventListener(new PortReader(), SerialPort.MASK_RXCHAR);
-            //System.out.println(speed + " / " + dataBits + " / " + stopBits + " / " + parity);
         }
         catch (SerialPortException ex) {
-            System.err.println(ex);
             if (ex.getExceptionType().equals("Port busy")){
                 ErrorMessage.setErrorMessage("Порт занят. Выберите другой порт.");
                 ErrorMessage.setErrorDialogShow();
-                errorFlag = "error";
+                setErrorFlag("error");
             }
         }
     }
@@ -64,7 +62,7 @@ class Connect {
             serialPort.closePort();
         }
         catch (SerialPortException ex){
-            System.err.println(ex);
+            ex.printStackTrace();
         }
     }
 
@@ -73,7 +71,7 @@ class Connect {
             serialPort.writeBytes(data.getBytes());
         }
         catch (SerialPortException ex){
-            System.err.println(ex);
+            ex.printStackTrace();
         }
     }
 
@@ -82,12 +80,11 @@ class Connect {
         public void serialEvent(SerialPortEvent event) {
             if(event.isRXCHAR() && event.getEventValue() > 0){
                 try {
-                    //Получаем ответ от устройства, обрабатываем данные и т.д.
                     String data = serialPort.readString(event.getEventValue());
                     Terminal.writeTerminal(data);
                 }
                 catch (SerialPortException ex) {
-                    System.out.println(ex);
+                    ex.printStackTrace();
                 }
             }
         }
