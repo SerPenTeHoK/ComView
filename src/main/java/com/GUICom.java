@@ -18,13 +18,14 @@ import java.net.URL;
 public class GUICom {
     private Connect com;
     private String selectedCom;
+    private Terminal term = new Terminal("Терминал");
     static JFrame frame = new JFrame("Wise Control");
     private JTextField textField = new JTextField(15);
     private static JButton buttonSend = new JButton("Отправить");
     private static JButton buttonConnect = new JButton("Соединить");
     private static JButton buttonSettings = new JButton("Настройки");
     private JCheckBox checkBox = new JCheckBox("+\\r");
-    private static JCheckBox terminal = new JCheckBox("Терминал");
+    private JCheckBox terminal = new JCheckBox("Терминал");
 
     private GUICom() {
 
@@ -76,8 +77,15 @@ public class GUICom {
         });
 
         terminal.addActionListener(e-> {
-                if (terminal.isSelected()){Terminal.showTerminal();}
-                else {Terminal.hideTerminal();}
+                if (terminal.isSelected()){term.showTerminal();}
+                else {term.hideTerminal();}
+        });
+
+        term.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                if (terminal.isSelected()){terminal.doClick();}
+            }
         });
 
         buttonSettings.setMaximumSize(new Dimension(120,22));
@@ -126,12 +134,6 @@ public class GUICom {
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
-    }
-
-    static void clickTerminal() {
-        if (terminal.isSelected()) {
-            terminal.doClick();
-        }
     }
 
     public static void main(String[] args) {

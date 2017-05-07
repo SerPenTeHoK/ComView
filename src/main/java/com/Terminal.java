@@ -11,36 +11,28 @@ import java.net.URL;
 /**
  *  GUI для терминала
  */
-class Terminal {
-    private static JFrame term = new JFrame("Терминал");
+class Terminal extends JFrame{
     private static JTextArea textArea = new JTextArea(10,25);
     private static JScrollPane scrollPane = new JScrollPane(textArea);
     private static JPopupMenu contextMenu = new JPopupMenu();
     private static JCheckBoxMenuItem alwaysOnTop = new JCheckBoxMenuItem("Всегда сверху");
     private static JMenuItem clear = new JMenuItem("Очистить");
 
-    static void showTerminal(){
-        //******************************* Общее для фрейма Терминал **********************************************
-        term.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        term.getContentPane().add(scrollPane);
-        term.setPreferredSize(new Dimension(320, 240));
-        term.setMinimumSize(new Dimension(320, 240));
-        term.setBounds(100,100,100,100);
-        term.pack();
+    Terminal(String title) throws HeadlessException {
+        super(title);
+        super.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        super.getContentPane().add(scrollPane);
+        super.setPreferredSize(new Dimension(320, 240));
+        super.setMinimumSize(new Dimension(320, 240));
+        super.setBounds(100,100,100,100);
+        super.pack();
         try {
-            URL resource = term.getClass().getResource("/images/bt3.png");
+            URL resource = super.getClass().getResource("/images/bt3.png");
             BufferedImage image = ImageIO.read(resource);
-            term.setIconImage(image);
+            super.setIconImage(image);
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        term.addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-               GUICom.clickTerminal();
-            }
-        });
 
         textArea.setFont(new Font("Arial", Font.PLAIN, 12));
         textArea.setBackground(Color.BLACK);
@@ -58,18 +50,17 @@ class Terminal {
 
         contextMenu.add(alwaysOnTop);
         alwaysOnTop.addActionListener(e -> {
-                if (alwaysOnTop.isSelected()){term.setAlwaysOnTop(true);}
-                else {term.setAlwaysOnTop(false);}
+                if (alwaysOnTop.isSelected()){super.setAlwaysOnTop(true);}
+                else {super.setAlwaysOnTop(false);}
         });
         contextMenu.add(clear);
         clear.addActionListener(e -> textArea.setText(""));
 
-        term.setVisible(true);
     }
 
-    static void hideTerminal(){
-        term.setVisible(false);
-    }
+    void showTerminal(){super.setVisible(true);}
+
+    void hideTerminal(){super.setVisible(false);}
 
     static void writeTerminal(String inputData){
         textArea.append(inputData);
