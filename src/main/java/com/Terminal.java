@@ -15,8 +15,16 @@ class Terminal extends JFrame{
     private static JTextArea textArea = new JTextArea(10,25);
     private static JScrollPane scrollPane = new JScrollPane(textArea);
     private static JPopupMenu contextMenu = new JPopupMenu();
-    private static JCheckBoxMenuItem alwaysOnTop = new JCheckBoxMenuItem("Всегда сверху");
-    private static JMenuItem clear = new JMenuItem("Очистить");
+    private JCheckBoxMenuItem alwaysOnTop = new JCheckBoxMenuItem("Всегда сверху");
+    private JMenuItem clear = new JMenuItem("Очистить");
+
+    public void setAlwaysOnTop(String title) {
+        alwaysOnTop.setText(title);
+    }
+
+    public void setClear(String title) {
+        clear.setText(title);
+    }
 
     Terminal(String title) throws HeadlessException {
         super(title);

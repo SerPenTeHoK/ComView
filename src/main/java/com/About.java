@@ -10,9 +10,9 @@ import java.awt.*;
  * GUI for About
  */
 class About extends JDialog{
-    private static final JDialog about = new JDialog(Settings.settings, "О программе", true);
 
-    static void showAbout(){
+    About(Frame owner, String title, boolean modal) {
+        super(owner, title, modal);
         JPanel panel = new JPanel();
         panel.setLayout(new MigLayout());
 
@@ -42,11 +42,14 @@ class About extends JDialog{
         textEmail.setForeground(Color.BLUE);
         panel.add(textEmail, "wrap, center");
 
-        about.setContentPane(panel);
-        about.setPreferredSize(new Dimension(330,150));
-        about.setResizable(false);
-        about.setLocationRelativeTo(null);
-        about.pack();
-        about.setVisible(true);
+        super.setContentPane(panel);
+        super.setPreferredSize(new Dimension(330,150));
+        super.setResizable(false);
+        super.setLocationRelativeTo(null);
+        super.pack();
+    }
+
+    void showAbout(){
+        super.setVisible(true);
     }
 }

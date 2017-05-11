@@ -10,6 +10,8 @@ import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 
 /**
@@ -19,16 +21,16 @@ public class GUICom {
     private Connect com;
     private String selectedCom;
     private Terminal term = new Terminal("Терминал");
+    private Settings settings = new Settings(null,"Настройки", true);
     static JFrame frame = new JFrame("Wise Control");
     private JTextField textField = new JTextField(15);
-    private static JButton buttonSend = new JButton("Отправить");
-    private static JButton buttonConnect = new JButton("Соединить");
-    private static JButton buttonSettings = new JButton("Настройки");
+    private JButton buttonSend = new JButton("Отправить");
+    private JButton buttonConnect = new JButton("Соединить");
     private JCheckBox checkBox = new JCheckBox("+\\r");
     private JCheckBox terminal = new JCheckBox("Терминал");
 
-    private GUICom() {
 
+    private GUICom() {
         //******************************* Выпадающее меню ***********************************************
         JComboBox<String> comList = new JComboBox<>(new GetCom().getCom());
         comList.setFont(new Font("Arial", Font.BOLD, 12));
@@ -88,9 +90,10 @@ public class GUICom {
             }
         });
 
+        JButton buttonSettings = new JButton("Настройки");
         buttonSettings.setMaximumSize(new Dimension(120,22));
         buttonSettings.setMinimumSize(new Dimension(120,22));
-        buttonSettings.addActionListener(e-> Settings.showSetting());
+        buttonSettings.addActionListener(e-> settings.showSetting());
 
         //******************************* Текстовые поля **************************************************
         textField.setText("Введите команду");
@@ -134,6 +137,10 @@ public class GUICom {
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
+    }
+
+    private void langSet(Locale currentLocale){
+        ResourceBundle lang = ResourceBundle.getBundle("loc_data", currentLocale);
     }
 
     public static void main(String[] args) {
