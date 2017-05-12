@@ -18,11 +18,11 @@ class Terminal extends JFrame{
     private JCheckBoxMenuItem alwaysOnTop = new JCheckBoxMenuItem("Всегда сверху");
     private JMenuItem clear = new JMenuItem("Очистить");
 
-    public void setAlwaysOnTop(String title) {
+    void setAlwaysOnTop(String title) {
         alwaysOnTop.setText(title);
     }
 
-    public void setClear(String title) {
+    void setClear(String title) {
         clear.setText(title);
     }
 

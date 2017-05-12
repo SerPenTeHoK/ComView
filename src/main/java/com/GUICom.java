@@ -22,6 +22,7 @@ public class GUICom {
     private String selectedCom;
     private Terminal term = new Terminal("Терминал");
     private Settings settings = new Settings(null,"Настройки", true);
+    private ErrorMessage errorMessage  = new ErrorMessage(null, "Внимание!", true);
     final static JFrame frame = new JFrame("Wise Control");
     private String textFieldLabel = "Введите команду";
     private JTextField textField = new JTextField(15);
@@ -32,7 +33,8 @@ public class GUICom {
     private JButton buttonSettings = new JButton("Настройки");
     private JCheckBox checkBox = new JCheckBox("+\\r");
     private JCheckBox terminal = new JCheckBox("Терминал");
-    private TitledBorder titledBorder = new TitledBorder("Список доступных COM портов");
+    private JPanel panel = new JPanel();
+    private TitledBorder titledBorder = BorderFactory.createTitledBorder("Список доступных COM портов");
 
     private String getButtonConnectLabel() {
         return buttonConnectLabel;
@@ -99,6 +101,7 @@ public class GUICom {
                     if (Connect.getErrorFlag().equals("error")){
                         buttonConnect.setText(getButtonConnectLabel());
                         com.closeConnect();
+                        errorMessage.ErrMsgShow();
                     }
                     else {buttonConnect.setText(getButtonDisconnectLabel());}
                     }
@@ -142,7 +145,6 @@ public class GUICom {
         });
 
         //******************************* Размещение на панели ********************************************
-        JPanel panel = new JPanel();
         panel.setLayout(new MigLayout());
         panel.setBorder(titledBorder);
         panel.add(comList, "span 1, growX, split");
@@ -181,6 +183,7 @@ public class GUICom {
         textField.setText(langChoice.getString("textField"));
         setTextFieldLabel(langChoice.getString("textField"));
         titledBorder.setTitle(langChoice.getString("comList")); // Баг
+        panel.repaint();
         term.setTitle(langChoice.getString("termFrame"));
         term.setAlwaysOnTop(langChoice.getString("alwaysOnTop"));
         term.setClear(langChoice.getString("clear"));
@@ -193,6 +196,8 @@ public class GUICom {
         settings.setParityL(langChoice.getString("parity"));
         settings.setLangL(langChoice.getString("lang"));
         settings.setAbout(langChoice.getString("buttonAbout"));
+        errorMessage.setTitle(langChoice.getString("errorDialog"));
+        errorMessage.message.setText(langChoice.getString("errorMsg"));
     }
 
     public static void main(String[] args) {

@@ -49,8 +49,6 @@ class Connect {
         }
         catch (SerialPortException ex) {
             if (ex.getExceptionType().equals("Port busy")){
-                ErrorMessage.setErrorMessage("Порт занят. Выберите другой порт.");
-                ErrorMessage.setErrorDialogShow();
                 setErrorFlag("error");
             }
         }
