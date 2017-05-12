@@ -22,13 +22,36 @@ public class GUICom {
     private String selectedCom;
     private Terminal term = new Terminal("Терминал");
     private Settings settings = new Settings(null,"Настройки", true);
-    static JFrame frame = new JFrame("Wise Control");
+    final static JFrame frame = new JFrame("Wise Control");
+    private String textFieldLabel = "Введите команду";
     private JTextField textField = new JTextField(15);
     private JButton buttonSend = new JButton("Отправить");
-    private JButton buttonConnect = new JButton("Соединить");
+    private String buttonConnectLabel = "Соединить";
+    private String buttonDisconnectLabel = "Разъединить";
+    private JButton buttonConnect = new JButton(buttonConnectLabel);
+    private JButton buttonSettings = new JButton("Настройки");
     private JCheckBox checkBox = new JCheckBox("+\\r");
     private JCheckBox terminal = new JCheckBox("Терминал");
+    private TitledBorder titledBorder = new TitledBorder("Список доступных COM портов");
 
+    private String getButtonConnectLabel() {
+        return buttonConnectLabel;
+    }
+    private void setButtonConnectLabel(String buttonConnectLabel) {
+        this.buttonConnectLabel = buttonConnectLabel;
+    }
+    private String getButtonDisconnectLabel() {
+        return buttonDisconnectLabel;
+    }
+    private void setButtonDisconnectLabel(String buttonDisconnectLabel) {
+        this.buttonDisconnectLabel = buttonDisconnectLabel;
+    }
+    private String getTextFieldLabel() {
+        return textFieldLabel;
+    }
+    private void setTextFieldLabel(String textFieldLabel) {
+        this.textFieldLabel = textFieldLabel;
+    }
 
     private GUICom() {
         //******************************* Выпадающее меню ***********************************************
@@ -42,39 +65,46 @@ public class GUICom {
                 }
         });
 
+        settings.langComboBox.addItemListener((e) -> {
+            if (e.getStateChange()==ItemEvent.SELECTED){
+                if (e.getItem().equals("English")){langSet(new Locale("en","US"));}
+                else {langSet(new Locale("ru","RU"));}
+            }
+        });
+
         //******************************* Блок кнопок ****************************************************
         buttonSend.setMaximumSize(new Dimension(120,22));
         buttonSend.setMinimumSize(new Dimension(120,22));
         buttonSend.addActionListener(e-> {
-                if (textField.getText().equals("Введите команду")||textField.getText().equals("")){
-                    textField.setText("Введите команду");
+                if (textField.getText().equals(getTextFieldLabel())||textField.getText().equals("")){
+                    textField.setText(getTextFieldLabel());
                 }
                 else if (checkBox.isSelected()){
                     com.sendCom(textField.getText() + "\r");
-                    textField.setText("Введите команду");}
+                    textField.setText(getTextFieldLabel());}
                 else {
                     com.sendCom(textField.getText());
-                    textField.setText("Введите команду");}
+                    textField.setText(getTextFieldLabel());}
         });
 
         buttonConnect.setMaximumSize(new Dimension(120,22));
         buttonConnect.setMinimumSize(new Dimension(120,22));
         buttonConnect.addActionListener(e-> {
                 if (selectedCom.equals("")){
-                    buttonConnect.setText("Соединить");
+                    buttonConnect.setText(getButtonConnectLabel());
                 }
-                else if (buttonConnect.getText().equals("Соединить")){
+                else if (buttonConnect.getText().equals(getButtonConnectLabel())){
                     com = new Connect(selectedCom);
                     com.openConnect();
                     if (Connect.getErrorFlag().equals("error")){
-                        buttonConnect.setText("Соединить");
+                        buttonConnect.setText(getButtonConnectLabel());
                         com.closeConnect();
                     }
-                    else {buttonConnect.setText("Разъединить");}
+                    else {buttonConnect.setText(getButtonDisconnectLabel());}
                     }
                 else {
                     com.closeConnect();
-                    buttonConnect.setText("Соединить");
+                    buttonConnect.setText(getButtonConnectLabel());
                 }
         });
 
@@ -90,10 +120,11 @@ public class GUICom {
             }
         });
 
-        JButton buttonSettings = new JButton("Настройки");
         buttonSettings.setMaximumSize(new Dimension(120,22));
         buttonSettings.setMinimumSize(new Dimension(120,22));
         buttonSettings.addActionListener(e-> settings.showSetting());
+
+
 
         //******************************* Текстовые поля **************************************************
         textField.setText("Введите команду");
@@ -113,7 +144,7 @@ public class GUICom {
         //******************************* Размещение на панели ********************************************
         JPanel panel = new JPanel();
         panel.setLayout(new MigLayout());
-        panel.setBorder(new TitledBorder("Список доступных COM портов"));
+        panel.setBorder(titledBorder);
         panel.add(comList, "span 1, growX, split");
         panel.add(buttonConnect, "wrap, pushX");
         panel.add(textField, "pushX, growX, split");
@@ -140,7 +171,28 @@ public class GUICom {
     }
 
     private void langSet(Locale currentLocale){
-        ResourceBundle lang = ResourceBundle.getBundle("loc_data", currentLocale);
+        ResourceBundle langChoice = ResourceBundle.getBundle("loc_data", currentLocale);
+        buttonConnect.setText(langChoice.getString("buttonConnect"));
+        setButtonConnectLabel(langChoice.getString("buttonConnect"));
+        setButtonDisconnectLabel(langChoice.getString("buttonDisconnect"));
+        buttonSend.setText(langChoice.getString("buttonSend"));
+        buttonSettings.setText(langChoice.getString("buttonSettings"));
+        terminal.setText(langChoice.getString("checkbox"));
+        textField.setText(langChoice.getString("textField"));
+        setTextFieldLabel(langChoice.getString("textField"));
+        titledBorder.setTitle(langChoice.getString("comList")); // Баг
+        term.setTitle(langChoice.getString("termFrame"));
+        term.setAlwaysOnTop(langChoice.getString("alwaysOnTop"));
+        term.setClear(langChoice.getString("clear"));
+        settings.setTitle(langChoice.getString("settingsFrame"));
+        settings.setButtonAbout(langChoice.getString("buttonAbout"));
+        settings.setButtonSave(langChoice.getString("buttonSave"));
+        settings.setSpeedL(langChoice.getString("speedLabel"));
+        settings.setDataL(langChoice.getString("frameSize"));
+        settings.setStopBitsL(langChoice.getString("stopBits"));
+        settings.setParityL(langChoice.getString("parity"));
+        settings.setLangL(langChoice.getString("lang"));
+        settings.setAbout(langChoice.getString("buttonAbout"));
     }
 
     public static void main(String[] args) {

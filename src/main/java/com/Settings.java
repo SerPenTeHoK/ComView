@@ -20,36 +20,38 @@ class Settings extends JDialog {
     private JLabel langL = new JLabel("Язык интерфейса:");
     private JButton buttonSave = new JButton("Сохранить");
     private JButton buttonAbout = new JButton("О программе");
+    JComboBox<String> langComboBox = new JComboBox<>(new String[]{"Русский", "English"});
 
-    public void setAbout(String title) {
+
+    void setAbout(String title) {
         about.setTitle(title);
     }
 
-    public void setSpeedL(String title) {
+    void setSpeedL(String title) {
         speedL.setText(title);
     }
 
-    public void setDataL(String title) {
+    void setDataL(String title) {
         dataL.setText(title);
     }
 
-    public void setStopBitsL(String title) {
+    void setStopBitsL(String title) {
         stopBitsL.setText(title);
     }
 
-    public void setParityL(String title) {
+    void setParityL(String title) {
         parityL.setText(title);
     }
 
-    public void setLangL(String title) {
+    void setLangL(String title) {
         langL.setText(title);
     }
 
-    public void setButtonSave(String title) {
+    void setButtonSave(String title) {
         buttonSave.setText(title);
     }
 
-    public void setButtonAbout(String title) {
+    void setButtonAbout(String title) {
         buttonAbout.setText(title);
     }
 
@@ -108,16 +110,14 @@ class Settings extends JDialog {
                 }
         });
 
-        JComboBox<String> lang = new JComboBox<>(new String[]{"Русский", "English"});
-        lang.setEnabled(false);
+        langComboBox.setBackground(Color.WHITE);
         panel.add(langL);
-        panel.add(lang, "wrap, pushX, growX");
-        lang.addItemListener(e -> {        });
+        panel.add(langComboBox, "wrap, pushX, growX");
 
         buttonSave.setMaximumSize(new Dimension(120,22));
         buttonSave.setMinimumSize(new Dimension(120,22));
         panel.add(buttonSave, "pushY, bottom");
-        buttonSave.addActionListener(e -> super.setVisible(false));
+        buttonSave.addActionListener(e-> super.setVisible(false));
 
         buttonAbout.setMaximumSize(new Dimension(120,22));
         buttonAbout.setMinimumSize(new Dimension(120,22));
